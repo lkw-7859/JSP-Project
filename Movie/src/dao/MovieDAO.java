@@ -111,7 +111,9 @@ public class MovieDAO {
 		
 		try {
 			conn = JdbcUtil.getConnection();
-			pstmt = conn.prepareStatement("SELECT m.movieName, m.category, m.img, m.info, m.runtime, m.movieNo, s.schNo, r.roomNo, s.runDay, r.seatcnt FROM movie m, schedule s, room r WHERE m.movieNo = s.movieNo AND r.schNo = s.schNo AND m.movieNo = ?");
+			pstmt = conn.prepareStatement("SELECT m.movieName, m.category, m.img, m.info, m.runtime, m.movieNo, s.schNo, s.roomNo, s.runDay, r.seatcnt "
+									+ "FROM movie m, schedule s, dayroom r "
+									+ "WHERE m.movieNo = s.movieNo AND r.schNo = s.schNo AND m.movieNo = ?");
 			
 			pstmt.setInt(1, movieNo);
 			
@@ -267,7 +269,7 @@ public class MovieDAO {
 			status = pstmt.executeUpdate();
 			
 			if(status > 0) {
-				pstmt = conn.prepareStatement("UPDATE room SET seatCnt = seatCnt + 1 WHERE schNo = ?");
+				pstmt = conn.prepareStatement("UPDATE dayroom SET seatCnt = seatCnt + 1 WHERE schNo = ?");
 				pstmt.setInt(1, vo.getSchNo());
 				
 				status = pstmt.executeUpdate();
@@ -303,5 +305,27 @@ public class MovieDAO {
 			JdbcUtil.close(rs, pstmt, conn);
 		}
 		return status;
+	}
+	
+	public void cancelTicket(String id, int ticketNo,int schNo) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		try {
+			conn = JdbcUtil.getConnection();
+			pstmt = conn.prepareStatement("delete from ticket where ticketNo = ? And id=?");
+			pstmt.setInt(1, ticketNo);
+			pstmt.setString(2, id);
+			int pos = pstmt.executeUpdate();
+			if(pos > 0) {
+				pstmt = conn.prepareStatement("UPDATE dayroom SET seatCnt = seatCnt - 1 WHERE schNo = ?");
+				pstmt.setInt(1, schNo);
+				pstmt.executeUpdate();
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			JdbcUtil.close(pstmt, conn);
+		}
 	}
 }

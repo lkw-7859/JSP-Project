@@ -2,8 +2,10 @@
 <%@page import="vo.TicketVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page session="true" %>
 <%@ include file="../header.jsp" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath }"/>
 
 <%
 	ArrayList<TicketVO> data = new ArrayList<TicketVO>();
@@ -14,9 +16,9 @@
 	}else {
 		if(request.getAttribute("myTicket") == null) {
 			response.sendRedirect("/myTicket.do?user=" + user.getId());
-		}else {
+		}/* else {
 			data = (ArrayList) request.getAttribute("myTicket");
-		}
+		} */
 	}
 %>
 
@@ -40,10 +42,11 @@
 					<th>스케줄 번호</th>
 					<th>좌석 번호</th>
 					<th>회원아이디</th>
+					<th>예매 취소</th>
 				</tr>
 			</thead>
 			<tbody>
-				<%
+				<%-- <%
 					for(TicketVO item : data) {
 				%>
 				<tr>
@@ -52,10 +55,21 @@
 					<td><%=item.getSchNo() %></td>
 					<td><%=item.getSeatNo() %></td>
 					<td><%=item.getId() %></td>
+					<td><a href="#">예매 취소</a></td>
 				</tr>
 				<%
 					}
-				%>
+				%> --%>
+				<c:forEach var="item" items="${myTicket }">
+					<tr>
+						<td>${item.ticketNo}</td>
+						<td>${item.bookDate}</td>
+						<td>${item.schNo}</td>
+						<td>${item.seatNo}</td>
+						<td>${item.id}</td>
+						<td><a href="/deleteTicket.do?ticketNo=${item.ticketNo}&user=${user.getId()}&schNo=${item.schNo}<%-- ?schNo=${item.schNo}?seatNo=${item.seatNo} --%>">예매 취소</a></td>
+					</tr>
+				</c:forEach>
 			</tbody>
 		</table>
 
