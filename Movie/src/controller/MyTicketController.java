@@ -27,7 +27,7 @@ public class MyTicketController implements Controller {
 			}else {
 				myTicket = instance.ticketMyList(id);
 			}
-			
+			req.setAttribute("myUser", id);
 			req.setAttribute("myTicket", myTicket);
 			req.getRequestDispatcher("/view/myTickets.jsp").forward(req, resp);	
 		}	
