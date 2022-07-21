@@ -3,6 +3,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page session="true" %>
 <%@ include file="../header.jsp" %>
 <%-- <%
@@ -37,7 +38,7 @@
 			<h2>전체 예매 목록(관리자 모드)</h2>
 		</c:when>
 		<c:otherwise>
-			<h2>${myUser }님의 예매 목록</h2>
+			<h2>${user.getId()}님의 예매 목록</h2>
 		</c:otherwise>
 	</c:choose>
 	
@@ -45,8 +46,10 @@
 			<thead>
 				<tr>
 					<th>티켓 번호</th>
-					<th>결제한 날짜</th>
+					<th>영화 제목</th>
+					<th>상영 날짜</th>
 					<th>스케줄 번호</th>
+					<th>상영관</th>
 					<th>좌석 번호</th>
 					<th>회원아이디</th>
 					<th>예매 취소</th>
@@ -68,10 +71,13 @@
 					}
 				%> --%>
 				<c:forEach var="item" items="${myTicket }">
+					<fmt:formatDate var="runDayandDate" value="${item.bookDate }" pattern="yyyy년 MM월 dd일 (HH시 mm분)"/>
 					<tr>
 						<td>${item.ticketNo}</td>
-						<td>${item.bookDate}</td>
-						<td>${item.schNo}</td>
+						<td>${item.movieName}</td>
+						<td>${runDayandDate}</td>
+						<td>${item.schNo}번</td>
+						<td>${item.roomNo}관</td>
 						<td>${item.seatNo}</td>
 						<td>${item.id}</td>
 						<td><a href="/deleteTicket.do?ticketNo=${item.ticketNo}&user=${myUser}&schNo=${item.schNo}<%-- ?schNo=${item.schNo}?seatNo=${item.seatNo} --%>">예매 취소</a></td>
