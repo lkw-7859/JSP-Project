@@ -19,7 +19,7 @@ public class TicketInsertController implements Controller {
 	@Override
 	public void execute(HttpServletRequest req, HttpServletResponse resp)
 			throws ServerException, IOException, ServletException {
-		// �뙆�씪誘명꽣 異붿텧
+		// 파파미터 추출
 		int schNo = Integer.parseInt(req.getParameter("schNo"));
 		int roomNo = Integer.parseInt(req.getParameter("roomNo"));
 		String seatNo = req.getParameter("seatNo");
@@ -28,7 +28,7 @@ public class TicketInsertController implements Controller {
 		String arr[] = seatNo.split(",");
 
 		for(int i = 0; i < arr.length; i++) {
-			// VO媛앹껜�뿉 �뜲�씠�꽣 諛붿씤�뵫
+			// VO객체에 데이터 바인딩
 			MovieDAO instance = MovieDAO.getInstance();
 			
 			TicketVO vo = instance.setTicketInfo(schNo,roomNo);
@@ -45,7 +45,7 @@ public class TicketInsertController implements Controller {
 					req.getRequestDispatcher("/view/buyTicket.jsp").forward(req, resp);	
 				}
 			}else {
-				req.setAttribute("error", "�삁留� �떎�뙣�엯�땲�떎.");
+				req.setAttribute("error", "예매 실패입니다.");
 				req.getRequestDispatcher("/").forward(req, resp);
 			}
 		}

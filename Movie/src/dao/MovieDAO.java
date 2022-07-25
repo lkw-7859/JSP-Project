@@ -20,8 +20,8 @@ public class MovieDAO {
 		return instance;
 	}
 
-	// �쁺�솕 媛��졇�삤�뒗 硫붿꽌�뱶 移댄뀒怨좊━媛� 0�씠硫� 紐⑤뱺 �쁺�솕瑜� 遺덈윭�삤怨� 移댄뀒怨좊━媛� 1, 2硫� 媛� 移댄뀒怨좊━�뿉 留욌뒗 �쁺�솕留� 遺덈윭��吏묐땲�떎.
-	// 遺덈윭��吏� �쁺�솕�뱾�쓣 由ъ뒪�듃�뿉 ���옣�븯�뿬 return �빀�땲�떎.
+	// 영화 가져오는 메서드 카테고리가 0이면 모든 영화를 불러오고 카테고리가 1, 2면 각 카테고리에 맞는 영화만 불러와집니다.
+    // 불러와진 영화들을 리스트에 저장하여 return 합니다.
 	public ArrayList<MovieVO> selectCategory(int category) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -56,11 +56,11 @@ public class MovieDAO {
 			}
 
 		} catch (Exception e) {
-			System.out.println("selectCategory() ");
+			System.out.println("selectCategory() 오류");
 			e.printStackTrace();
 
 		} finally {
-			// DB 媛앹껜 諛섑솚
+			// DB 객체 반환
 			JdbcUtil.close(rs, pstmt, conn);
 		}
 		return movieList;
