@@ -97,7 +97,7 @@
 							SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일 (HH시 mm분)");
 							String datetime = sdf.format(item.getRunDay());
 						%>
-						<tr onclick="location.href = '/chooseSeat.do?schNo=<%=item.getSchNo()%>&roomNo=<%=item.getRoomNo() %>';">
+						<tr onclick="location.href = '/chooseSeat.do?schNo=<%=item.getSchNo()%>';">
 							<td>No.<%=item.getSchNo() %></td>
 							<td><%=datetime %></td>
 							<td><%=item.getRuntime() %>분</td>

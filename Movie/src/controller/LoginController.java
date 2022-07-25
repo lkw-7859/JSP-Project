@@ -16,18 +16,18 @@ public class LoginController implements Controller {
 	@Override
 	public void execute(HttpServletRequest req, HttpServletResponse resp)
 			throws ServerException, IOException, ServletException {
-		// ÆÄ¶ó¹ÌÅÍ ÃßÃâ
+		// íŒŒë¼ë¯¸í„° ì¶”ì¶œ
 		String userId = req.getParameter("userId");
 		String userPW = req.getParameter("userPW");
 
-		// À¯È¿¼º Ã¼Å©
+		// ìœ íš¨ì„± ì²´í¬
 		if (userId.isEmpty() || userPW.isEmpty()) {
-			req.setAttribute("error", "¸ğµç Ç×¸ñÀ» ºüÁü¾øÀÌ ÀÔ·ÂÇØÁÖ½Ã±â ¹Ù¶ø´Ï´Ù.");
+			req.setAttribute("error", "ëª¨ë“  í•­ëª©ì„ ë¹ ì§ì—†ì´ ì…ë ¥í•´ì£¼ì‹œê¸° ë°”ëë‹ˆë‹¤.");
 			req.getRequestDispatcher("/view/login.jsp").forward(req, resp);
 			return;
 		}
 		
-		//DB ¿¬µ¿
+		//DB ì—°ë™
 		MemberDAO instance = MemberDAO.getInstance();
 		MemberVO vo = instance.memberLogin(userId, userPW);
 		
@@ -35,7 +35,7 @@ public class LoginController implements Controller {
 			req.setAttribute("Auser", vo);
 			req.getRequestDispatcher("/").forward(req, resp);
 		}else {
-			req.setAttribute("error", "¾ÆÀÌµğ ¶Ç´Â ºñ¹Ğ¹øÈ£°¡ ¿Ã¹Ù¸£Áö ¾Ê½À´Ï´Ù.");
+			req.setAttribute("error", "ì•„ì´ë”” ë˜ëŠ” ë¹„ë°€ë²ˆí˜¸ê°€ ì˜¬ë°”ë¥´ì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			req.getRequestDispatcher("/view/login.jsp").forward(req, resp);
 		}
 	}

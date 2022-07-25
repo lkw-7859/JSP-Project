@@ -20,8 +20,8 @@ public class MovieDAO {
 		return instance;
 	}
 
-    // 영화 가져오는 메서드 카테고리가 0이면 모든 영화를 불러오고 카테고리가 1, 2면 각 카테고리에 맞는 영화만 불러와집니다.
-    // 불러와진 영화들을 리스트에 저장하여 return 합니다.
+	// 영화 가져오는 메서드 카테고리가 0이면 모든 영화를 불러오고 카테고리가 1, 2면 각 카테고리에 맞는 영화만 불러와집니다.
+	// 불러와진 영화들을 리스트에 저장하여 return 합니다.
 	public ArrayList<MovieVO> selectCategory(int category) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -60,7 +60,7 @@ public class MovieDAO {
 			e.printStackTrace();
 
 		} finally {
-            // DB 객체 반환
+			// DB 객체 반환
 			JdbcUtil.close(rs, pstmt, conn);
 		}
 		return movieList;
@@ -112,8 +112,9 @@ public class MovieDAO {
 		try {
 			conn = JdbcUtil.getConnection();
 			pstmt = conn.prepareStatement("SELECT m.movieName, m.category, m.img, m.info, m.runtime, m.movieNo, s.schNo, s.roomNo, s.runDay, r.seatcnt "
-									+ "FROM movie m, schedule s,dayroom r "
+									+ "FROM movie m, schedule s, dayroom r "
 									+ "WHERE m.movieNo = s.movieNo AND r.schNo = s.schNo AND m.movieNo = ?");
+			
 			pstmt.setInt(1, movieNo);
 			
 			rs = pstmt.executeQuery();
@@ -162,11 +163,8 @@ public class MovieDAO {
 				TicketVO vo = new TicketVO();
 				
 				vo.setTicketNo(rs.getInt("ticketNo"));
-				vo.setBookDate(rs.getTimestamp("bookDate"));
-                vo.setMovieName(rs.getString("movieName"));
-                vo.setBookDate(rs.getTimestamp("bookDate"));              
+				vo.setBookDate(rs.getDate("bookDate"));
 				vo.setSchNo(rs.getInt("schNo"));
-				 vo.setRoomNo(rs.getInt("roomNo"));  
 				vo.setSeatNo(rs.getInt("seatNo"));
 				vo.setId(rs.getString("id"));
 				
@@ -191,7 +189,7 @@ public class MovieDAO {
 		try {
 			conn = JdbcUtil.getConnection();
 			
-			pstmt = conn.prepareStatement("SELECT * FROM ticket t WHERE id = ? order by ticketNo");
+			pstmt = conn.prepareStatement("SELECT * FROM ticket WHERE id = ?");
 			pstmt.setString(1, id);
 			
 			rs = pstmt.executeQuery();
@@ -200,11 +198,8 @@ public class MovieDAO {
 				TicketVO vo = new TicketVO();
 				
 				vo.setTicketNo(rs.getInt("ticketNo"));
-				vo.setBookDate(rs.getTimestamp("bookDate"));
-                vo.setMovieName(rs.getString("movieName"));
-                vo.setBookDate(rs.getTimestamp("bookDate"));              
+				vo.setBookDate(rs.getDate("bookDate"));
 				vo.setSchNo(rs.getInt("schNo"));
-				 vo.setRoomNo(rs.getInt("roomNo"));  
 				vo.setSeatNo(rs.getInt("seatNo"));
 				vo.setId(rs.getString("id"));
 				
@@ -239,11 +234,8 @@ public class MovieDAO {
 				TicketVO vo = new TicketVO();
 				
 				vo.setTicketNo(rs.getInt("ticketNo"));
-				vo.setBookDate(rs.getTimestamp("bookDate"));
-                vo.setMovieName(rs.getString("movieName"));
-                vo.setBookDate(rs.getTimestamp("bookDate"));              
+				vo.setBookDate(rs.getDate("bookDate"));
 				vo.setSchNo(rs.getInt("schNo"));
-				vo.setRoomNo(rs.getInt("roomNo"));  
 				vo.setSeatNo(rs.getInt("seatNo"));
 				vo.setId(rs.getString("id"));
 				
@@ -267,15 +259,13 @@ public class MovieDAO {
 		
 		try {
 			conn = JdbcUtil.getConnection();
-            pstmt = conn.prepareStatement("INSERT INTO ticket VALUES(?, ?, ?, ?, ?, ?, ?)");
-            //"티켓 정보 인서트"
+			pstmt = conn.prepareStatement("INSERT INTO ticket VALUES(?, SYSDATE, ?, ?, ?)");
+			//"현 값 + 1 해주기"
 			pstmt.setInt(1, ticketMaxNo() + 1);
-            pstmt.setString(2, vo.getMovieName());
-            pstmt.setTimestamp(3, vo.getBookDate());
-            pstmt.setInt(4, vo.getSchNo());
-            pstmt.setInt(5, vo.getRoomNo());
-            pstmt.setInt(6, vo.getSeatNo());
-            pstmt.setString(7, vo.getId());
+			pstmt.setInt(2, vo.getSchNo());
+			pstmt.setInt(3, vo.getSeatNo());
+			pstmt.setString(4, vo.getId());
+
 			status = pstmt.executeUpdate();
 			
 			if(status > 0) {
@@ -292,27 +282,7 @@ public class MovieDAO {
 		}
 		return status;
 	}
-    public TicketVO setTicketInfo(int schNo, int roomNo) {
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        TicketVO ticket = new TicketVO();
-        try {
-            conn = JdbcUtil.getConnection();
-            pstmt = conn.prepareStatement("SELECT movieName, runDay FROM schedule WHERE schNo = ? AND roomNo = ?");
-            pstmt.setInt(1, schNo);
-            pstmt.setInt(2, roomNo);
-            rs = pstmt.executeQuery();
-            if(rs.next()) {
-                ticket.setMovieName(rs.getString("movieName"));
-                ticket.setBookDate(rs.getTimestamp("runDay"));                                
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return ticket;
-    }
-    
+	
 	public int ticketMaxNo() {
 		Connection conn = null;
 		PreparedStatement pstmt = null;

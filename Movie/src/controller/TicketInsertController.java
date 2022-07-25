@@ -19,9 +19,8 @@ public class TicketInsertController implements Controller {
 	@Override
 	public void execute(HttpServletRequest req, HttpServletResponse resp)
 			throws ServerException, IOException, ServletException {
-		// 파파미터 추출
+		// 파라미터 추출
 		int schNo = Integer.parseInt(req.getParameter("schNo"));
-		int roomNo = Integer.parseInt(req.getParameter("roomNo"));
 		String seatNo = req.getParameter("seatNo");
 		String user = req.getParameter("user");
 		
@@ -29,14 +28,13 @@ public class TicketInsertController implements Controller {
 
 		for(int i = 0; i < arr.length; i++) {
 			// VO객체에 데이터 바인딩
-			MovieDAO instance = MovieDAO.getInstance();
-            TicketVO vo = instance.setTicketInfo(schNo,roomNo);
+			TicketVO vo = new TicketVO();
 			vo.setSchNo(schNo);
 			vo.setSeatNo(Integer.parseInt(arr[i]));
-            vo.setRoomNo(roomNo);
 			vo.setId(user);
 			
-			
+			//DB 연동
+			MovieDAO instance = MovieDAO.getInstance();
 			int n = instance.ticketBuy(vo);
 			
 			if(n > 0) {
