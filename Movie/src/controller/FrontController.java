@@ -32,7 +32,7 @@ public class FrontController extends HttpServlet {
 	 * @see Servlet#init(ServletConfig)
 	 */
 	public void init(ServletConfig config) throws ServletException {
-		// url과 sub controller 멥핑
+		// url怨� sub controller 硫ν븨
 		charset = config.getInitParameter("charset");
 		
 		list = new HashMap<String, Controller>();

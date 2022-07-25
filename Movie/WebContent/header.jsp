@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>스티어링</title>
+<title>영화 예매</title>
 <link rel="stylesheet" href="/lib/style.css">
 <link rel="stylesheet" type="text/css" href="/lib/semantic.min.css">
 <script
@@ -26,6 +26,8 @@
 		}
 	}
 %>
+
+
 
 <body>
 
