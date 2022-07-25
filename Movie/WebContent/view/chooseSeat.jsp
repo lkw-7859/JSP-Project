@@ -17,7 +17,8 @@
 	ArrayList<TicketVO> ticketList = new ArrayList<>();
 
 	int schNo = (int)request.getAttribute("schNo");
-	
+    int roomNo = (int)request.getAttribute("roomNo");
+    
 	if(request.getAttribute("ticketList") == null) {
 		response.sendRedirect("/");
 	}else {
@@ -87,7 +88,7 @@
 			swal("오류", "좌석이 선택되지 않았습니다.", "error");
 			return;
 		}else {
-			location.href = "ticketBuy.do?schNo="+ <%=schNo%> +"&seatNo=" + arr + "&user=<%=user.getId()%>";
+            location.href = "ticketBuy.do?schNo="+ <%=schNo%> +"&seatNo=" + arr + "&roomNo=" +${roomNo} + "&user=<%=user.getId()%>";
 		}
 	});
 </script>

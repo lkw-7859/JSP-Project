@@ -17,7 +17,8 @@
 
 <div class="ui container">
     <div class="visual">
-        <img src="./images/logo.jpg" alt="visualImg">
+    	<video width="1120" height="630" src="video/movie.mp4" controls autoplay muted loop></video>
+        <!-- <img src="./images/logo.jpg" alt="visualImg"> -->
     </div>
 
     <div class="main">
