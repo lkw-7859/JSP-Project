@@ -80,7 +80,12 @@
 						<td>${item.roomNo}관</td>
 						<td>${item.seatNo}</td>
 						<td>${item.id}</td>
-						<td><a href="/deleteTicket.do?ticketNo=${item.ticketNo}&user=${myUser}&schNo=${item.schNo}<%-- ?schNo=${item.schNo}?seatNo=${item.seatNo} --%>">예매 취소</a></td>
+						<td>
+							<div class="item">
+    							<div class="ui blue button" onclick="location.href = '/deleteTicket.do?ticketNo=${item.ticketNo}&user=${myUser}&schNo=${item.schNo}';">예매 취소</div>
+  							</div>
+							<%-- <a href="/deleteTicket.do?ticketNo=${item.ticketNo}&user=${myUser}&schNo=${item.schNo}">예매 취소</a> --%>
+						</td>
 					</tr>
 				</c:forEach>
 			</tbody>
