@@ -26,8 +26,11 @@
 <script>
  		function counter(){
   		document.getElementById("counting").innerHTML = document.getElementById("txt").value.length; 
+  		if(document.getElementById("txt").value.length>50){
+  			alert('50자 이내로 입력해 주세요');
+  			}
  		}
- 		
+ 	
  		function btn_reg(){
  		    alert('로그인 후 이용 바랍니다.');
  		   location.href="/view/login.jsp"
@@ -87,7 +90,7 @@
 			</tbody>
 		</table>
 
-		<h2>영화 리뷰</h2>
+		<h2>영화 후기</h2>
 		
 
 		<div class="movieInfoBox">
@@ -99,9 +102,10 @@
 			<p >${num}개의 댓글</p>
 				<hr style="border: solid 1px black;">
 				<c:set var="userId" value="${user.getId()}" />
-					<p style="font-size:20px"> ${user.getId()} </p> 
+					
 					<c:if test="${userId == null }">
-						<form action="#">
+						<form name="review" action="#">
+						<div style="font-size:15px; padding:5px;"> --- 님</div>
 							<textarea style="resize: none;width:100%;" name="txt" id="txt" placeholder="로그인 후 이용해주세요" disabled ></textarea>
 			
  							<div class="item" >
@@ -118,9 +122,9 @@
 					</c:if>
 					
 					<c:if test="${userId != null }">
-					<form action="/reviewInsert.do?userId=${user.getId()}&movieNo=${mn}" method="post">
+					<form name="review" action="/reviewInsert.do?userId=${user.getId()}&movieNo=${mn}" method="post">
+					<div style="font-size:15px; padding:5px;"> ${user.getId()}님</div>
 						<textarea style="resize: none;width:100%;" name="txt" id="txt" placeholder="댓글을 입력하세요" onkeyup="counter()" ></textarea>
-			
  						<div class="item" >
  								<div style="float:left;">
  									<span style="color:#aaa;" id="counting">0</span>/50자
@@ -152,8 +156,7 @@
 							<td>${reviewList.writedate }</td>
 							<c:choose>
 								<c:when test="${ reviewList.id == user.getId()}">
-									<td><button style="background-color : gray" onclick="location.href = '/deleteReview.do?num=${reviewList.num}&movieNo=${reviewList.movieNo}';">삭제</button>
-									<%-- <a href="/deleteReview.do?num=${reviewList.num}&user=${user.getId()}&movieNo=${reviewList.movieNo}">삭제</a> --%>
+									<td><button style="color:blue; background:white; font-size:0.5em; border-radius:1em; padding:5px 20px;" onclick="location.href = '/deleteReview.do?num=${reviewList.num}&movieNo=${reviewList.movieNo}';">삭제</button>
 									</td>
 								</c:when>
 								<c:otherwise>
@@ -161,10 +164,14 @@
 								</c:otherwise>
 							</c:choose>
 						</tr>
+						
 						</c:forEach> 
-					
+						
 					</table>
-				
+					
+				<c:forEach var="pageNo" begin="1" end="${num/5+1 }" step="1">
+						<a href="/view/reviewList.do?pageNo=${pageNo }"> ${pageNo}</a>
+				</c:forEach>
 			</div>
 		</div>
     </div>

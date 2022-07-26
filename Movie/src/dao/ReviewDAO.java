@@ -31,11 +31,11 @@ public class ReviewDAO {
 		ArrayList<ReviewVO> list = new ArrayList<ReviewVO>();
 		try {
 			conn = JdbcUtil.getConnection();
+
 			String query = "select * from  reviews where movieNo=? order by num desc";
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, movieNo);
 			rs = pstmt.executeQuery();
-			
 			while(rs.next()) {
 				int num = rs.getInt("num");
 				String id = rs.getString("id");

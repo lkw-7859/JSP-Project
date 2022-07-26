@@ -22,6 +22,7 @@ public class ReviewListController implements Controller {
 	
 	if (req.getParameter("movieNo") != null) {
 		int movieNo = Integer.parseInt(req.getParameter("movieNo"));
+		/* int pageNo = Integer.parseInt(req.getParameter("pageNo")); */
 		
 		MovieDAO instance = MovieDAO.getInstance();
 		ReviewDAO instance1 = ReviewDAO.getInstance();
