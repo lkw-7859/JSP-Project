@@ -8,13 +8,13 @@
 <%@ include file="../header.jsp" %>
 
 <%
-	ArrayList<MovieVO> movieGetList = new ArrayList<MovieVO>();
+	MovieVO movieInfo = new MovieVO();
 	ArrayList<ScheduleVO> schList = new ArrayList<ScheduleVO>();
 	
-	if(request.getAttribute("movieGetList") == null) {
+	if(request.getAttribute("movieInfo") == null) {
 		response.sendRedirect("/");
 	}else {
-		movieGetList = (ArrayList) request.getAttribute("movieGetList");
+		movieInfo = (MovieVO) request.getAttribute("movieInfo");
 		schList = (ArrayList) request.getAttribute("scheduleAList");
 	}
 	
@@ -41,10 +41,8 @@
 			</thead>
 			<tbody>
 				<%
-					for (MovieVO item : movieGetList) {
-					img = item.getImg();
-					
-					switch (item.getCategory()) {
+					img = movieInfo.getImg();	
+					switch (movieInfo.getCategory()) {
 					case 1:
 						cat = "액션";
 						break;
@@ -63,12 +61,11 @@
 					}
 				%>
 				<tr>
-					<td>No.<%=item.getMovieNo()%></td>
+					<td>No.<%=movieInfo.getMovieNo()%></td>
 					<td><%=cat%></td>
-					<td><%=item.getMovieName()%></td>
-					<td><%=item.getInfo()%></td>
+					<td><%=movieInfo.getMovieName()%></td>
+					<td><%=movieInfo.getInfo()%></td>
 				</tr>
-				<% } %>
 			</tbody>
 		</table>
 
@@ -97,7 +94,7 @@
 							SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일 (HH시 mm분)");
 							String datetime = sdf.format(item.getRunDay());
 						%>
-						<tr onclick="location.href = '/chooseSeat.do?schNo=<%=item.getSchNo()%>';">
+						<tr onclick="location.href = '/chooseSeat.do?schNo=<%=item.getSchNo()%>&roomNo=<%=item.getRoomNo() %>';">
 							<td>No.<%=item.getSchNo() %></td>
 							<td><%=datetime %></td>
 							<td><%=item.getRuntime() %>분</td>

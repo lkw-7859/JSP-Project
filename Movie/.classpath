@@ -13,27 +13,22 @@
 			<attribute name="owner.project.facets" value="jst.web;#system#"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="D:/team3_3st_project/Movie/WebContent/WEB-INF/lib/ojdbc6.jar">
+	<classpathentry kind="lib" path="C:/Users/ez220403/Desktop/JSP-Project-main/Movie/WebContent/WEB-INF/lib/taglibs-standard-compat-1.2.5.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="D:/team3_3st_project/Movie/WebContent/WEB-INF/lib/taglibs-standard-compat-1.2.5.jar">
+	<classpathentry kind="lib" path="C:/Users/ez220403/Desktop/JSP-Project-main/Movie/WebContent/WEB-INF/lib/taglibs-standard-impl-1.2.5.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="D:/team3_3st_project/Movie/WebContent/WEB-INF/lib/taglibs-standard-impl-1.2.5.jar">
+	<classpathentry kind="lib" path="C:/Users/ez220403/Desktop/JSP-Project-main/Movie/WebContent/WEB-INF/lib/taglibs-standard-jstlel-1.2.5.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="D:/team3_3st_project/Movie/WebContent/WEB-INF/lib/taglibs-standard-jstlel-1.2.5.jar">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="D:/team3_3st_project/Movie/WebContent/WEB-INF/lib/taglibs-standard-spec-1.2.5.jar">
+	<classpathentry kind="lib" path="C:/Users/ez220403/Desktop/JSP-Project-main/Movie/WebContent/WEB-INF/lib/taglibs-standard-spec-1.2.5.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>

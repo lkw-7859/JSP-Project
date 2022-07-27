@@ -8,12 +8,12 @@
 <%@ include file="../header.jsp" %>
 
 <%
-	ArrayList<MovieVO> movieGetList = new ArrayList<MovieVO>();
+	MovieVO movieInfo = new MovieVO();
 	
-	if(request.getAttribute("movieGetList") == null) {
+	if(request.getAttribute("movieInfo") == null) {
 		response.sendRedirect("/");
 	}else {
-		movieGetList = (ArrayList) request.getAttribute("movieGetList");
+		movieInfo = (MovieVO) request.getAttribute("movieInfo");
 	}
 	
 	String cat = "";
@@ -59,10 +59,9 @@
 			</thead>
 			<tbody>
 				<%
-					for (MovieVO item : movieGetList) {
-					img = item.getImg();
+					img = movieInfo.getImg();
 					
-					switch (item.getCategory()) {
+					switch (movieInfo.getCategory()) {
 					case 1:
 						cat = "액션";
 						break;
@@ -81,12 +80,11 @@
 					}
 				%>
 				<tr>
-					<td>No.<%=item.getMovieNo()%></td>
+					<td>No.<%=movieInfo.getMovieNo()%></td>
 					<td><%=cat%></td>
-					<td><%=item.getMovieName()%></td>
-					<td><%=item.getInfo()%></td>
+					<td><%=movieInfo.getMovieName()%></td>
+					<td><%=movieInfo.getInfo()%></td>
 				</tr>
-				<% } %>
 			</tbody>
 		</table>
 
@@ -117,6 +115,7 @@
 								</div>
 							</div>
 							<br>
+							
 						</form>
 					</c:if>
 					

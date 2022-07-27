@@ -17,10 +17,8 @@ public class ReviewController implements Controller {
 
 	@Override
 	public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServerException, IOException, ServletException {
-	
-		//후기 작성을 우
 		
-		int category = 0;
+	int category = 0;
 		
 		if (req.getParameter("movieNo") != null) {
 			category = Integer.parseInt(req.getParameter("movieNo"));

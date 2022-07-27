@@ -16,19 +16,17 @@ public class MovieInfoController implements Controller {
 
 	@Override
 	public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServerException, IOException, ServletException {		
-		
-			// 영화 info 
-			// movieNo 파라미터 추출
-			if (req.getParameter("movieNo") != null) {
-				int movieNo = Integer.parseInt(req.getParameter("movieNo"));
+		if (req.getParameter("movieNo") != null) {
+			int movieNo = Integer.parseInt(req.getParameter("movieNo"));
 			
-			//DB 연동(movieNo에 따른 영화 리스트 / 영화 스케줄)
 			MovieDAO instance = MovieDAO.getInstance();
-			MovieVO movieGetList = instance.movieInfo(movieNo);
+			//선택한 영화의 정보를 받아옴
+			MovieVO movieInfo = instance.movieInfo(movieNo);
+			//선택한 영화의 상영시간 스케줄을 받아옴
 			ArrayList<ScheduleVO> scheduleAList = instance.scheduleAList(movieNo);
 			
 			if(scheduleAList != null) {
-				req.setAttribute("movieGetList", movieGetList);
+				req.setAttribute("movieInfo", movieInfo);
 				req.setAttribute("scheduleAList", scheduleAList);
 				req.getRequestDispatcher("/view/movieInfo.jsp").forward(req, resp);	
 			}

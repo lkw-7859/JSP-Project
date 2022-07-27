@@ -15,9 +15,10 @@
 	}
 
 	ArrayList<TicketVO> ticketList = new ArrayList<>();
-
-	int schNo = (int)request.getAttribute("schNo");
 	
+	int schNo = (int)request.getAttribute("schNo");
+	int roomNo = (int)request.getAttribute("roomNo");
+
 	if(request.getAttribute("ticketList") == null) {
 		response.sendRedirect("/");
 	}else {
@@ -61,6 +62,13 @@
         	}
         }        
         %>
+        
+        <%-- <c:forEach var="i" begin="1" end="25" step = 1>
+        	<c:set var="status" value="false"/>
+        	<c:forEach var="ticketVO" items="${ticketList }">
+        		<c:if test=""></c:if>
+        	</c:forEach>
+        </c:forEach> --%>
         </div>
         
         <div style="text-align: right;">
@@ -87,8 +95,8 @@
 			swal("오류", "좌석이 선택되지 않았습니다.", "error");
 			return;
 		}else {
-			location.href = "ticketBuy.do?schNo="+ <%=schNo%> +"&seatNo=" + arr + "&user=<%=user.getId()%>";
-		}
+			location.href = "ticketBuy.do?schNo="+ <%=schNo%> +"&seatNo=" + arr + "&roomNo=" +${roomNo} + "&user=<%=user.getId()%>";
+		} <%-- + "&roomNo=" +<%=roomNo%> --%>
 	});
 </script>
 

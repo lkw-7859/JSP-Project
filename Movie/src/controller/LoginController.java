@@ -16,8 +16,7 @@ public class LoginController implements Controller {
 	@Override
 	public void execute(HttpServletRequest req, HttpServletResponse resp)
 			throws ServerException, IOException, ServletException {
-		
-		// 입력 파라미터 추출
+		// 파라미터 추출
 		String userId = req.getParameter("userId");
 		String userPW = req.getParameter("userPW");
 

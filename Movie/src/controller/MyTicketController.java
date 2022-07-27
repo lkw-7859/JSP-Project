@@ -20,14 +20,18 @@ public class MyTicketController implements Controller {
 		
 		if (id != null) {
 			MovieDAO instance = MovieDAO.getInstance();
+			//예매(티켓) 정보를 담는 리스트 선언
 			ArrayList<TicketVO> myTicket = new ArrayList<TicketVO>();
 			
+			//id가 관리자(admin) 일때 는 모든 예매 정보를  
 			if(id.equals("admin")) {
 				myTicket = instance.ticketAllList();
+			//아니면 id의 정보를 가지고 예매 정보를 받아온다.
 			}else {
 				myTicket = instance.ticketMyList(id);
 			}
-			
+			//예매목록 화면에 필요한 값 세팅
+			req.setAttribute("myUser", id);
 			req.setAttribute("myTicket", myTicket);
 			req.getRequestDispatcher("/view/myTickets.jsp").forward(req, resp);	
 		}	
