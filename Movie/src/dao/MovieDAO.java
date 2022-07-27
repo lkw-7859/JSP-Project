@@ -26,35 +26,26 @@ public class MovieDAO {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-
 		ArrayList<MovieVO> movieList = new ArrayList<MovieVO>();
 		try {
-
 			conn = JdbcUtil.getConnection();
-
 			String sql = "SELECT * FROM movie ORDER BY movieNo";
-
 			if (category != 0) {
 				sql = "SELECT * FROM movie WHERE category = " + category + " ORDER BY movieNo";
 			}
-
 			pstmt = conn.prepareStatement(sql);
-
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
 				MovieVO vo = new MovieVO();
-
 				vo.setMovieNo(rs.getInt("movieNo"));
 				vo.setMovieName(rs.getString("movieName"));
 				vo.setCategory(rs.getInt("category"));
 				vo.setRuntime(rs.getInt("runtime"));
 				vo.setImg(rs.getString("img"));
 				vo.setInfo(rs.getString("info"));
-
 				movieList.add(vo);
 			}
-
 		} catch (Exception e) {
 			System.out.println("selectCategory() 오류");
 			e.printStackTrace();
@@ -66,12 +57,14 @@ public class MovieDAO {
 		return movieList;
 	}
 
-	public ArrayList<MovieVO> movieInfo(int movieNo) {
+	// 영화 정보를 가져오는 메소드
+	// movieNo에 따라 해당 영화의 정보를 저장하여 리턴
+	public MovieVO movieInfo(int movieNo) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
-		ArrayList<MovieVO> list = new ArrayList<MovieVO>();
+		MovieVO list = new MovieVO();
 
 		try {
 			conn = JdbcUtil.getConnection();
@@ -80,19 +73,13 @@ public class MovieDAO {
 
 			pstmt.setInt(1, movieNo);
 			rs = pstmt.executeQuery();
-
-			while (rs.next()) {
-				MovieVO vo = new MovieVO();
-				
-				vo.setMovieNo(rs.getInt("movieNo"));
-				vo.setMovieName(rs.getString("movieName"));
-				vo.setCategory(rs.getInt("category"));
-				vo.setRuntime(rs.getInt("runtime"));
-				vo.setImg(rs.getString("img"));
-				vo.setInfo(rs.getString("info"));
-				
-				list.add(vo);
-			}
+			rs.next();
+			list.setMovieNo(rs.getInt("movieNo"));
+			list.setMovieName(rs.getString("movieName"));
+			list.setCategory(rs.getInt("category"));
+			list.setRuntime(rs.getInt("runtime"));
+			list.setImg(rs.getString("img"));
+			list.setInfo(rs.getString("info"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -102,6 +89,8 @@ public class MovieDAO {
 		return list;
 	}
 
+	// 영화 스케줄를 가져오는 메소드
+	// movieNo에 따라 해당 영화의 스케줄 정보를 저장하여 리턴
 	public ArrayList<ScheduleVO> scheduleAList(int movieNo) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -118,7 +107,7 @@ public class MovieDAO {
 			pstmt.setInt(1, movieNo);
 			
 			rs = pstmt.executeQuery();
-
+			
 			while (rs.next()) {
 				ScheduleVO vo = new ScheduleVO();
 				

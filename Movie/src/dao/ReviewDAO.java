@@ -22,7 +22,7 @@ public class ReviewDAO {
 	}
 	
 	
-	//리뷰 목록 불러오기
+	//movieNo에 따른 리뷰 목록 불러오기
 	public ArrayList<ReviewVO> reviewList(int movieNo) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -36,6 +36,7 @@ public class ReviewDAO {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, movieNo);
 			rs = pstmt.executeQuery();
+			System.out.println(rs);
 			while(rs.next()) {
 				int num = rs.getInt("num");
 				String id = rs.getString("id");
@@ -55,17 +56,18 @@ public class ReviewDAO {
 		return list;
 	}
 	
+	// 리뷰 등록
 	public void insertReview(String txt, String id, int movieNo) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		try {
 			conn = JdbcUtil.getConnection();
 			pstmt = conn.prepareStatement("INSERT INTO reviews VALUES(?, ?, ?, ?, SYSDATE)");
+			//마지막 리뷰번호 + 1
 			pstmt.setInt(1, maxReviewNum(movieNo)+1);
 			pstmt.setString(2, id);
 			pstmt.setString(3, txt);
 			pstmt.setInt(4,movieNo);
-			
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -75,6 +77,7 @@ public class ReviewDAO {
 		
 	}
 	
+	//리뷰 마지막 번호 추출 
 	public int maxReviewNum(int movieNo) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -100,6 +103,8 @@ public class ReviewDAO {
 		return num;
 	}
 	
+	//리뷰 삭제
+	// 해당 영화와 리뷰번호에 따른 삭제기능
 	public void deleteReview(int num,int movieNo) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -109,13 +114,6 @@ public class ReviewDAO {
 			pstmt.setInt(1, movieNo);
 			pstmt.setInt(2, num);
 			pstmt.executeUpdate();
-			
-			/*
-			 * int pos = pstmt.executeUpdate(); if(pos > 0) { pstmt = conn.
-			 * prepareStatement("UPDATE dayroom SET seatCnt = seatCnt - 1 WHERE schNo = ?");
-			 * pstmt.setInt(1, schNo); 
-			 * pstmt.executeUpdate(); }
-			 */
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {

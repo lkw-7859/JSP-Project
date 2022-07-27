@@ -117,7 +117,6 @@
 								</div>
 							</div>
 							<br>
-							
 						</form>
 					</c:if>
 					

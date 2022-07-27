@@ -19,14 +19,15 @@ public class ReviewListController implements Controller {
 	@Override
 	public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServerException, IOException, ServletException {		
 		
-	
-	if (req.getParameter("movieNo") != null) {
-		int movieNo = Integer.parseInt(req.getParameter("movieNo"));
-		/* int pageNo = Integer.parseInt(req.getParameter("pageNo")); */
+		// movieNo 파라미터 추출
+		if (req.getParameter("movieNo") != null) {
+			int movieNo = Integer.parseInt(req.getParameter("movieNo"));
+			/* int pageNo = Integer.parseInt(req.getParameter("pageNo")); */
 		
+		// DB 연동(movieNo에 대한 영화 정보 / 영화 리스트) 
 		MovieDAO instance = MovieDAO.getInstance();
 		ReviewDAO instance1 = ReviewDAO.getInstance();
-		ArrayList<MovieVO> movieGetList = instance.movieInfo(movieNo);
+		MovieVO movieGetList = instance.movieInfo(movieNo);
 		ArrayList<ReviewVO> reviewList = instance1.reviewList(movieNo);
 		int num = instance1.maxReviewNum(movieNo);
 		

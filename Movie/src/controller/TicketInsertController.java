@@ -19,6 +19,7 @@ public class TicketInsertController implements Controller {
 	@Override
 	public void execute(HttpServletRequest req, HttpServletResponse resp)
 			throws ServerException, IOException, ServletException {
+		
 		// 파라미터 추출
 		int schNo = Integer.parseInt(req.getParameter("schNo"));
 		String seatNo = req.getParameter("seatNo");
