@@ -57,6 +57,9 @@
   			<div class="item">
   				<a href="/movieList.do?cat_no=5">애니메이션</a>
   			</div>
+  			<div class="item">
+  				<a href="/review.do">후기</a>
+  			</div>
 			
 <%			
 			if(userStatus == 1) {

@@ -21,8 +21,10 @@ public class ChooseSeatController implements Controller {
 			schNo = Integer.parseInt(req.getParameter("schNo"));
 			
 			MovieDAO instance = MovieDAO.getInstance();
+			//이미 예매된 좌석을 가리기 위해 예매 정보를 받아온다.
 			ArrayList<TicketVO> ticketList = instance.ticketList(schNo);
-
+			
+			//chooseSeat.jsp에 필요한 값을 세팅
 			req.setAttribute("ticketList", ticketList);
 			req.setAttribute("schNo", schNo);
 			req.setAttribute("roomNo", roomNo);

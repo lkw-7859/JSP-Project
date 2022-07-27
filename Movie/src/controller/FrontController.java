@@ -32,7 +32,7 @@ public class FrontController extends HttpServlet {
 	 * @see Servlet#init(ServletConfig)
 	 */
 	public void init(ServletConfig config) throws ServletException {
-		// url怨� sub controller 硫ν븨
+		// url과 sub controller 멥핑
 		charset = config.getInitParameter("charset");
 		
 		list = new HashMap<String, Controller>();
@@ -44,6 +44,10 @@ public class FrontController extends HttpServlet {
 		list.put("/myTicket.do", new MyTicketController());
 		list.put("/ticketBuy.do", new TicketInsertController());
 		list.put("/deleteTicket.do", new DeleteMyTicketController());
+		list.put("/review.do", new ReviewController());
+		list.put("/reviewInsert.do", new ReviewInsertController());
+		list.put("/reviewList.do", new ReviewListController());
+		list.put("/deleteReview.do", new DeleteReviewController());
 	}
 
 	/**

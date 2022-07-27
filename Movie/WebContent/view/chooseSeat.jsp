@@ -62,6 +62,13 @@
         	}
         }        
         %>
+        
+        <%-- <c:forEach var="i" begin="1" end="25" step = 1>
+        	<c:set var="status" value="false"/>
+        	<c:forEach var="ticketVO" items="${ticketList }">
+        		<c:if test=""></c:if>
+        	</c:forEach>
+        </c:forEach> --%>
         </div>
         
         <div style="text-align: right;">

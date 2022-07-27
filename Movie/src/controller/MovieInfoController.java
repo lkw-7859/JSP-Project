@@ -20,11 +20,13 @@ public class MovieInfoController implements Controller {
 			int movieNo = Integer.parseInt(req.getParameter("movieNo"));
 			
 			MovieDAO instance = MovieDAO.getInstance();
-			ArrayList<MovieVO> movieGetList = instance.movieInfo(movieNo);
+			//선택한 영화의 정보를 받아옴
+			MovieVO movieInfo = instance.movieInfo(movieNo);
+			//선택한 영화의 상영시간 스케줄을 받아옴
 			ArrayList<ScheduleVO> scheduleAList = instance.scheduleAList(movieNo);
 			
 			if(scheduleAList != null) {
-				req.setAttribute("movieGetList", movieGetList);
+				req.setAttribute("movieInfo", movieInfo);
 				req.setAttribute("scheduleAList", scheduleAList);
 				req.getRequestDispatcher("/view/movieInfo.jsp").forward(req, resp);	
 			}

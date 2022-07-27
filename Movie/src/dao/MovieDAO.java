@@ -65,13 +65,13 @@ public class MovieDAO {
 		}
 		return movieList;
 	}
-
-	public ArrayList<MovieVO> movieInfo(int movieNo) {
+	// 선택한 영화의 정보를 받아온다.
+	public MovieVO movieInfo(int movieNo) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
-		ArrayList<MovieVO> list = new ArrayList<MovieVO>();
+		MovieVO movieInfo = new MovieVO();
 
 		try {
 			conn = JdbcUtil.getConnection();
@@ -81,17 +81,13 @@ public class MovieDAO {
 			pstmt.setInt(1, movieNo);
 			rs = pstmt.executeQuery();
 
-			while (rs.next()) {
-				MovieVO vo = new MovieVO();
-				
-				vo.setMovieNo(rs.getInt("movieNo"));
-				vo.setMovieName(rs.getString("movieName"));
-				vo.setCategory(rs.getInt("category"));
-				vo.setRuntime(rs.getInt("runtime"));
-				vo.setImg(rs.getString("img"));
-				vo.setInfo(rs.getString("info"));
-				
-				list.add(vo);
+			if(rs.next()) {				
+				movieInfo.setMovieNo(rs.getInt("movieNo"));
+				movieInfo.setMovieName(rs.getString("movieName"));
+				movieInfo.setCategory(rs.getInt("category"));
+				movieInfo.setRuntime(rs.getInt("runtime"));
+				movieInfo.setImg(rs.getString("img"));
+				movieInfo.setInfo(rs.getString("info"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -99,9 +95,9 @@ public class MovieDAO {
 			JdbcUtil.close(rs, pstmt, conn);
 		}
 
-		return list;
+		return movieInfo;
 	}
-
+	// 선택한 영화의 상영 시간에 대한 정보를 반환해주는 함수
 	public ArrayList<ScheduleVO> scheduleAList(int movieNo) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -111,7 +107,8 @@ public class MovieDAO {
 		
 		try {
 			conn = JdbcUtil.getConnection();
-			pstmt = conn.prepareStatement("SELECT m.movieName, m.category, m.img, m.info, m.runtime, m.movieNo, s.schNo, s.roomNo, s.runDay, r.seatcnt "
+			pstmt = conn.prepareStatement("SELECT m.movieName, m.category, m.img, "
+									+ "m.info, m.runtime, m.movieNo, s.schNo, s.roomNo, s.runDay, r.seatcnt "
 									+ "FROM movie m, schedule s, dayroom r "
 									+ "WHERE m.movieNo = s.movieNo AND r.schNo = s.schNo AND m.movieNo = ?");
 			
@@ -190,7 +187,7 @@ public class MovieDAO {
 		
 		try {
 			conn = JdbcUtil.getConnection();
-			
+			// 가져온 id에 대한 예매 정보를 받아온다.
 			pstmt = conn.prepareStatement("SELECT * FROM ticket WHERE id = ? order by ticketNo");
 			pstmt.setString(1, id);
 			
@@ -217,7 +214,7 @@ public class MovieDAO {
 
 		return list;
 	}
-	
+	//이미 예매가 됬다면 예매가 된 좌석을 예매하지 못하게 하기 위해 스케줄번호에 따른 예매정보를 받아온다.
 	public ArrayList<TicketVO> ticketList(int schNo) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -286,18 +283,20 @@ public class MovieDAO {
 		
 		try {
 			conn = JdbcUtil.getConnection();
+			//티켓정보를 받아와서 ticket 테이블에 인서트 해준다.
 			pstmt = conn.prepareStatement("INSERT INTO ticket VALUES(?, ?, ?, ?, ?, ?, ?)");
 			//"티켓 정보 인서트"
-			pstmt.setInt(1, ticketMaxNo() + 1);
+			pstmt.setInt(1, ticketMaxNo() + 1); // 티켓번호가 겹치지 않게 하기위해 최대번호에 +1해준 번호를 인서트
 			pstmt.setString(2, vo.getMovieName());
 			pstmt.setTimestamp(3, vo.getBookDate());
 			pstmt.setInt(4, vo.getSchNo());
 			pstmt.setInt(5, vo.getRoomNo());
 			pstmt.setInt(6, vo.getSeatNo());
 			pstmt.setString(7, vo.getId());
-
+			
 			status = pstmt.executeUpdate();
 			
+			//pstmt.executeUpdate() 함수가 잘 실행됬다면 dayroom 테이블에 예매된 좌석의 숫자를 카운팅 해준다.
 			if(status > 0) {
 				pstmt = conn.prepareStatement("UPDATE dayroom SET seatCnt = seatCnt + 1 WHERE schNo = ?");
 				pstmt.setInt(1, vo.getSchNo());
@@ -342,10 +341,12 @@ public class MovieDAO {
 		PreparedStatement pstmt = null;
 		try {
 			conn = JdbcUtil.getConnection();
+			//해당 id에 있는 티켓번호에 있는 예매(티켓)정보를 삭제
 			pstmt = conn.prepareStatement("delete from ticket where ticketNo = ? And id=?");
 			pstmt.setInt(1, ticketNo);
 			pstmt.setString(2, id);
 			int pos = pstmt.executeUpdate();
+			//pstmt.executeUpdate() 함수가 잘 실행 되었다면 예매된 좌석을 -1 해준다.
 			if(pos > 0) {
 				pstmt = conn.prepareStatement("UPDATE dayroom SET seatCnt = seatCnt - 1 WHERE schNo = ?");
 				pstmt.setInt(1, schNo);
