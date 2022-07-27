@@ -346,11 +346,18 @@ public class MovieDAO {
 			pstmt.setInt(1, ticketNo);
 			pstmt.setString(2, id);
 			int pos = pstmt.executeUpdate();
-			//pstmt.executeUpdate() 함수가 잘 실행 되었다면 예매된 좌석을 -1 해준다.
+
 			if(pos > 0) {
+				//pstmt.executeUpdate() 함수가 잘 실행 되었다면 예매된 좌석을 -1 해준다.
 				pstmt = conn.prepareStatement("UPDATE dayroom SET seatCnt = seatCnt - 1 WHERE schNo = ?");
 				pstmt.setInt(1, schNo);
 				pstmt.executeUpdate();
+				//삭제한 티켓 번호보다 큰 티켓 번호들을 1 씩 뺴줘서 티켓번호를 갱신한다.
+				for(int i = ticketNo+1;i<=ticketMaxNo();i++) {
+					pstmt = conn.prepareStatement("UPDATE ticket SET ticketNo = ticketNo - 1 WHERE ticketNo = ?");
+					pstmt.setInt(1, i);
+					pstmt.executeUpdate();
+				}
 			}
 			
 		} catch (Exception e) {
