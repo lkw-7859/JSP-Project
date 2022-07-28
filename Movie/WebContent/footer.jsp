@@ -25,7 +25,7 @@
           </div>
         </div>
         <div class="seven wide column">
-          <h4 class="ui inverted header">20113 박명재</h4>
+          <h4 class="ui inverted header">3조 영화예매</h4>
           <p>Copyrightⓒ스티어링 All Rights Reserved.</p>
         </div>
       </div>

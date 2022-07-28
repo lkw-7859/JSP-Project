@@ -35,7 +35,7 @@
         <h2>좌석 선택하기</h2>
         
         <div class="seatBox">
-        <%
+        <%-- <%
         for(int i = 1; i <= 25; i++) {
         	boolean status = false;
         	
@@ -54,21 +54,31 @@
        		<button class="ui blue basic button" data-seatno="<%=i %>"><%= i %></button>
        	<%
         	}
-        	
         	if(i % 5 == 0) {
         %>
         	<br>
         <%
         	}
         }        
-        %>
-        
-        <%-- <c:forEach var="i" begin="1" end="25" step = 1>
-        	<c:set var="status" value="false"/>
-        	<c:forEach var="ticketVO" items="${ticketList }">
-        		<c:if test=""></c:if>
+        %> --%>
+       		<c:forEach var="i" begin="1" end="25">
+        		<c:set var="status" value="0"/>
+        		<fmt:formatNumber value="${i}" var="num" type="number"/>
+        		<c:forEach var="ticketVO" items="${ticketList }">
+        			<c:if test="${ticketVO.seatNo==num }">
+        				<c:set var="status" value="1"/>
+        			</c:if>
+        		</c:forEach>
+        		<c:choose>
+        			<c:when test="${status eq 1}">
+        				<button class="ui pink basic button" disabled>${num}</button>
+        			</c:when>
+        			<c:otherwise>
+        				<button class="ui blue basic button" data-seatno="${i}">${num}</button>
+        			</c:otherwise>
+        		</c:choose>
+        		<c:if test="${num%5 == 0 }"><br></c:if>
         	</c:forEach>
-        </c:forEach> --%>
         </div>
         
         <div style="text-align: right;">
